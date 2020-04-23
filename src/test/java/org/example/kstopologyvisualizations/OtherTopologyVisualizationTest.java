@@ -1,13 +1,15 @@
 package org.example.kstopologyvisualizations;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.common.serialization.*;
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.streams.*;
-import org.apache.kafka.streams.kstream.*;
-import org.apache.kafka.streams.processor.To;
+import org.apache.kafka.streams.kstream.CogroupedKStream;
+import org.apache.kafka.streams.kstream.KGroupedStream;
+import org.apache.kafka.streams.kstream.KStream;
 import org.junit.Test;
 
-import java.time.Duration;
 import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
@@ -50,14 +52,11 @@ public class OtherTopologyVisualizationTest {
                 streamsBuilder.stream("foo");
         KStream<String, String> barStream =
                 streamsBuilder.stream("bar");
-        KGroupedStream<String, String> groupedFoos =
-                fooStream.groupByKey();
-        KGroupedStream<String, String> groupedBars =
-                barStream.groupByKey();
         CogroupedKStream<String, String> coGroupedFoos =
-                groupedFoos.cogroup((bytes, s, o) -> o + s);
+                fooStream.groupByKey().cogroup((bytes, s, o) -> o + s);
         CogroupedKStream<String, String> coGroupedFoosAndBars =
-                coGroupedFoos.cogroup(groupedBars,
+                coGroupedFoos.cogroup(
+                        barStream.groupByKey(),
                         (bytes, s, o) -> o + s);
         coGroupedFoosAndBars.aggregate(() -> "").toStream()
                 .to("foosAndBars");

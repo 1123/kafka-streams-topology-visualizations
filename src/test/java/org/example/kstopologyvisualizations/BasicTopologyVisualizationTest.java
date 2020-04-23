@@ -3,12 +3,9 @@ package org.example.kstopologyvisualizations;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.kstream.JoinWindows;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KTable;
 import org.junit.Test;
 
-import java.time.Duration;
 import java.util.Arrays;
 
 @Slf4j

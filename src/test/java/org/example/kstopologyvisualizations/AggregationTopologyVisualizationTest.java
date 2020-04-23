@@ -4,14 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.JoinWindows;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Suppressed;
-import org.apache.kafka.streams.kstream.internals.suppress.EagerBufferConfigImpl;
-import org.apache.kafka.streams.kstream.internals.suppress.FinalResultsSuppressionBuilder;
-import org.apache.kafka.streams.kstream.internals.suppress.StrictBufferConfigImpl;
 import org.junit.Test;
-
-import java.time.Duration;
 
 import static java.time.Duration.ofMinutes;
 
